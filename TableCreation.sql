@@ -12,7 +12,6 @@ else
 print'Department table already exists'
 
 
-
 if not exists (select * from sys.tables where [name] = 'Computer')
 begin
 	create table Computer
@@ -161,6 +160,7 @@ begin
 (
 	[Id] int primary key identity(1,1), --starts with 1 and increments by 1
 	[Name] nvarchar(50) not null,
+	[CustomerId] int not null,
 )
 end
 else
@@ -210,7 +210,21 @@ add constraint FK_ProductId
 
 
 
+alter table ProductOrder
+add constraint FK_OrderId
+	foreign key (OrderId)
+	references [Order] (Id)
+
+
+
 alter table [Order]
 add constraint FK_Order_Customer
+	foreign key (CustomerId)
+	references Customer (Id)
+
+
+
+alter table PaymentType
+add constraint FK_PaymentType_Customer
 	foreign key (CustomerId)
 	references Customer (Id)
